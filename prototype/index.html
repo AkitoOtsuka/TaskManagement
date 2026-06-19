@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイTODOボード（プロトタイプ）</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <h1>📋 マイTODOボード</h1>
+    <p class="note">※ プロトタイプ：データはブラウザのメモリ上のみ。リロードで初期状態に戻ります。</p>
+  </header>
+
+  <!-- ボード（3リスト） -->
+  <main class="board" id="board">
+    <!-- 各リストは app.js から動的に生成 -->
+  </main>
+
+  <!-- 編集モーダル -->
+  <div class="overlay" id="editOverlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <h2>カードの編集</h2>
+      <label>タイトル<span class="req">必須</span>
+        <input type="text" id="editTitle" placeholder="例：買い物に行く">
+      </label>
+      <label>メモ・詳細<span class="opt">任意</span>
+        <textarea id="editNote" rows="3" placeholder="補足があれば"></textarea>
+      </label>
+      <label>期限<span class="req">必須</span>
+        <input type="date" id="editDue">
+      </label>
+      <fieldset class="priority">
+        <legend>優先度<span class="req">必須</span></legend>
+        <label><input type="radio" name="editPriority" value="high"> 🔴 高</label>
+        <label><input type="radio" name="editPriority" value="mid"> 🟡 中</label>
+        <label><input type="radio" name="editPriority" value="low"> 🔵 低</label>
+      </fieldset>
+      <p class="error" id="editError" hidden>タイトル・期限・優先度は必須です。</p>
+      <div class="modal-actions">
+        <button class="btn-danger" id="editDeleteBtn">削除</button>
+        <span class="spacer"></span>
+        <button class="btn-ghost" id="editCloseBtn">閉じる</button>
+        <button class="btn-primary" id="editSaveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 削除確認ダイアログ -->
+  <div class="overlay" id="confirmOverlay" hidden>
+    <div class="modal modal-confirm" role="alertdialog" aria-modal="true">
+      <h2>⚠️ カードの削除</h2>
+      <p id="confirmText">このカードを削除してもよろしいですか？</p>
+      <p class="muted">（この操作は取り消せません）</p>
+      <div class="modal-actions">
+        <span class="spacer"></span>
+        <button class="btn-ghost" id="confirmCancelBtn">キャンセル</button>
+        <button class="btn-danger" id="confirmDeleteBtn">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
