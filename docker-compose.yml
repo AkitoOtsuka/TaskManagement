@@ -1,0 +1,24 @@
+# 学習用の PostgreSQL を Docker で起動するための設定。
+# PC に直接 PostgreSQL をインストールしなくても、ここで一時的な DB サーバーを用意できる。
+# 起動: docker compose up -d   /   停止: docker compose down
+
+services:
+  db:
+    image: postgres:17
+    container_name: todoboard-db
+    environment:
+      POSTGRES_DB: todoboard          # 作成するデータベース名
+      POSTGRES_USER: todoboard        # ログインユーザー名（学習用の簡単な値）
+      POSTGRES_PASSWORD: todoboard    # パスワード（学習用の簡単な値）
+    ports:
+      - "5432:5432"                   # PC側:コンテナ側。バックエンドは localhost:5432 で接続する
+    volumes:
+      - db-data:/var/lib/postgresql/data   # データを永続化（コンテナを消してもデータは残る）
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todoboard -d todoboard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
